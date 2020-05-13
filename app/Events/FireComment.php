@@ -17,14 +17,14 @@ class FireComment implements ShouldBroadcast
 
     public $comment;
     public $user;
-   
+
     public function __construct(Comment $comment)
     {
         $this->comment = $comment;
         $this->user = auth()->user();
     }
 
-   
+
     public function broadcastOn()
     {
         return new PrivateChannel('comments.'.$this->comment->post_id);
