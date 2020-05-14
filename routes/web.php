@@ -21,11 +21,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-
 Route::group(['prefix' => 'pusher','middleware' => ['auth']], function()
 {
 	Route::post('posts/{id}', function($id, \Illuminate\Http\Request $request){
@@ -52,6 +47,16 @@ Route::group(['prefix' => 'pusher','middleware' => ['auth']], function()
 	{
 		$comments = \App\Comment::where('post_id', $id)->with('user')->get();
 		return response()->json($comments);
-	})->name('comments.list');
+    })->name('comments.list');
 });
+
+
+Route::get('vue/users', function()
+{
+    return view('users');
+});
+
+Route::resource('users', 'UserController', ['only' => [
+    'index', 'store', 'update', 'destroy'
+]]);
 
